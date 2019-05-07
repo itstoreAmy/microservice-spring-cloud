@@ -1,0 +1,17 @@
+server:
+  port: 8010
+
+# 添加eureka的配置,
+eureka:
+  client:
+    service-url:
+      defaultZone: http://user:password123@microservice-discovery-eureka:8761/eureka/
+    healthcheck:
+      enabled: true     # 启动eureka健康检查 需要使用SpringCloud1.1之后
+  instance:
+    instance-id: ${spring.cloud.client.ipAddress}:${spring.application.name}:${server.port}:@project.version@
+    hostname: ${spring.application.name}
+
+spring:
+  application:
+    name: microservice-consumer-movie-ribbon

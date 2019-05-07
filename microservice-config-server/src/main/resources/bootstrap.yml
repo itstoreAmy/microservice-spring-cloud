@@ -1,0 +1,58 @@
+server:
+  port: 8888
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://user:password123@microservicediscoveryeureka:8761/eureka
+  instance:
+    # prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ipAddress}:${spring.application.name}:${server.port}:@project.version@
+    hostname: ${spring.application.name}
+
+management:
+  security:
+    enabled: false
+
+spring:
+  application:
+    name: microserviceconfigserver
+    index: ${random.long}
+  cloud:
+    config:
+      server:
+        git:
+          uri: http://10.10.7.206/xiaoqiang/config.git # 一个项目下对应多有的配置
+          force-pull: true
+          username: xiaoqiang
+          password: asdfghjkl
+          default-label: master
+          search-paths: dev*
+      # 标记表示无法连接到服务器是致命的
+      fail-fast: true
+
+    # 配置追踪 http://localhost:8080/trace
+    bus:
+      trace:
+        enabled: true
+#    inetutils:
+#      ignoredInterfaces:
+#      - docker0
+#      - veth.*
+#      - VM.*
+
+
+
+  # 链接rabbitmq
+  rabbitmq:
+    host: 192.168.10.61
+    port: 5672
+    username: root
+    password: kshop
+
+logging:
+   level:
+     org.springframework.cloud: debug
+     root: warn
